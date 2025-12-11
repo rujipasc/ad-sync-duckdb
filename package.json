@@ -1,0 +1,19 @@
+{
+  "name": "scb-ad-automation",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "rujipas.c",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.947.0",
+    "@duckdb/node-api": "^1.4.2-r.1",
+    "dotenv": "^17.2.3",
+    "iconv-lite": "^0.7.0",
+    "ssh2-sftp-client": "^12.0.1"
+  }
+}
