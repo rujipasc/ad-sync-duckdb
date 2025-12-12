@@ -24,17 +24,30 @@ import { buildOutputPath } from "./lib/archive.js";
 // });
 
 // console.log("Using email mapping file:", emailMapping);
-const color = {
-  cyan: t => `\x1b[36m${t}\x1b[0m`,
-  bold: t => `\x1b[1m${t}\x1b[0m`
-};
-const main = async () => {
-    const rows = await runQueryFromFile("./duck/emp_ad.sql");
-    const outPath = buildOutputPath();
-    exportTXT(rows, outPath);
 
-    console.log(color.cyan(`\n📁 Output file created at:`));
-    console.log(color.bold(outPath));
-};
+const non_humatrix = await bringLatestEmpProfile({
+    sourceDir: "../../../Card X Company Limited/HRIS&SS - Interface SCB AD/",
+    targetDir: "./datasource/",
+    targetName: "non_humatrix_profile.csv",
+    prefix: "Gen_EmpID&Email",
+    extension: ".xlsx",
+    mode: "cp",
+    sheetName: "Auto_Gen"
+});
 
-main().catch((err) => console.error(err));
+console.log("Convert Excel to CSV:", non_humatrix);
+
+// const color = {
+//   cyan: t => `\x1b[36m${t}\x1b[0m`,
+//   bold: t => `\x1b[1m${t}\x1b[0m`
+// };
+// const main = async () => {
+//     const rows = await runQueryFromFile("./duck/emp_ad.sql");
+//     const outPath = buildOutputPath();
+//     exportTXT(rows, outPath);
+
+//     console.log(color.cyan(`\n📁 Output file created at:`));
+//     console.log(color.bold(outPath));
+// };
+
+// main().catch((err) => console.error(err));

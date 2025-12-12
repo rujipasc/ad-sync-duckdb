@@ -50,3 +50,8 @@ LEFT JOIN read_csv_auto('datasource/emp_Category.csv') AS ec
   ON ec.Prefix_Map = LEFT(e."Employee ID", 2)
 WHERE (e."Termination Date" IS NULL OR e."Termination Date" >= current_date()) 
 	AND e."Employee ID" != 'DUMMY'
+	AND e."Company Code" != 'AX001'
+	AND (
+		 e."Level Code (Description)" != 'BOD' 
+			OR (e."Level Code (Description)" = 'BOD' AND e."Employee ID" = 'CT90010')
+	);
