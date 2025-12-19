@@ -1,13 +1,14 @@
 import { bringLatestEmpProfile } from "./lib/move-file.js";
 import { runQueryFromFile } from "./lib/query.js";
-import { exportTXT } from "./lib/exporter.js"
-import { buildOutputPath } from "./lib/archive.js";
+import { exportTXT, exportCSV } from "./lib/exporter.js"
+import { buildOutputPath, buildCsvOutputPath } from "./lib/archive.js";
 
 const color = {
     cyan: t => `\x1b[36m${t}\x1b[0m`,
     bold: t => `\x1b[1m${t}\x1b[0m`
 };
-const main = async () => {
+
+export const main = async () => {
     const empCsvPath = bringLatestEmpProfile({
         sourceDir: "../humatrix-export/downloads/",
         targetDir: "./datasource/",
@@ -44,9 +45,14 @@ const main = async () => {
     const rows = await runQueryFromFile("./duck/emp_ad.sql");
     const outPath = buildOutputPath();
     exportTXT(rows, outPath);
+    const csvPath = await buildCsvOutputPath();
+    exportCSV(rows, csvPath);
 
     console.log(color.cyan(`\n📁 Output file created at:`));
     console.log(color.bold(outPath));
+    console.log(color.bold(csvPath));
 };
 
-main().catch((err) => console.error(err));
+if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith('index.js')) {
+    main().catch((err) => console.error(err));
+}
