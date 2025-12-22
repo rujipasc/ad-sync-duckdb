@@ -10,7 +10,7 @@ const color = {
 
 export const main = async () => {
     const empCsvPath = bringLatestEmpProfile({
-        sourceDir: "../humatrix-export/downloads/",
+        sourceDir: "./downloads/",
         targetDir: "./datasource/",
         targetName: "emp_profile.csv",
         prefix: "EmpProfiles_",
