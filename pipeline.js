@@ -6,21 +6,26 @@ import path from "path";
 
 async function run() {
     try {
-        // await runTask();
-        const paths = await main();
-
-        if (paths && paths.stagingPath) {
-            console.log("\n🚀 Starting Cloud Sync...");
-
-            const s3Key = `lgc/scb/inbound/AD/${path.basename(paths.stagingPath)}`;
-
-            await uploadToS3(paths.stagingPath, s3Key);
+        await runTask();
+        const result = await main();
+        const uploadQueue = [
+            result.stagingPath,
+            result.orgPath,
+        ].filter(Boolean);
+        console.log(`\n☁️ [Step 3] Syncing ${uploadQueue.length} files to AWS S3...`);
+        for (const localFile of uploadQueue) {
+            const fileName = path.basename(localFile);
+            const s3Key = `lgc/scb/inbound/AD/${fileName}`; // กำหนด path บน S3
+            
+            await uploadToS3(localFile, s3Key);
         }
-
+        console.log("\n✅ --- ALL PIPELINE TASKS COMPLETED ---");
         await listObjectS3();
         console.log("🏁 Pipeline Finished!")
+        process.exit(0);
     } catch (e) {
-        console.error("Pipeline Error:", e)
+        console.error("Pipeline Error:", e);
+        process.exit(1);
     }
 }
 run();

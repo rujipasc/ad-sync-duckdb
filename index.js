@@ -9,7 +9,7 @@ const color = {
 };
 
 export const main = async () => {
-    const empCsvPath = bringLatestEmpProfile({
+    const empCsvPath = await bringLatestEmpProfile({
         sourceDir: "./downloads/",
         targetDir: "./datasource/",
         targetName: "emp_profile.csv",
@@ -20,7 +20,7 @@ export const main = async () => {
 
     console.log("Using input file:", empCsvPath);
 
-    const emailMapping = bringLatestEmpProfile({
+    const emailMapping = await bringLatestEmpProfile({
         sourceDir: "../../../Card X Company Limited/HRIS&SS - Interface SCB AD/",
         targetDir: "./datasource/",
         targetName: "email_mapping.csv",
@@ -30,6 +30,17 @@ export const main = async () => {
     });
 
     console.log("Using email mapping file:", emailMapping);
+
+    const OrganizationTXT = await bringLatestEmpProfile({
+        sourceDir: "../../../Card X Company Limited/HRIS&SS - Interface SCB AD/",
+        targetDir: "./output/S3/",
+        targetName: "CARDX_ORGANIZATION.txt",
+        prefix: "CARDX_ORGANIZATION",
+        extension: ".txt",
+        mode: "cp"
+    });
+
+    console.log("Copy Text File:", OrganizationTXT);
 
     const non_humatrix = await bringLatestEmpProfile({
         sourceDir: "../../../Card X Company Limited/HRIS&SS - Interface SCB AD/",
@@ -41,13 +52,16 @@ export const main = async () => {
         sheetName: "Auto_Gen"
     });
     console.log("Convert Excel to CSV:", non_humatrix);
+
     const rows = await runQueryFromFile("./duck/emp_ad.sql");
+
     const outPath = buildOutputPath();
     exportTXT(rows, outPath);
     const csvPath = await buildCsvOutputPath();
     exportCSV(rows, csvPath);
     const stagingS3 = await buildS3Upload();
     exportTXT(rows, stagingS3);
+
 
     console.log(color.cyan(`\n📁 Output file created at:`));
     console.log(color.bold(outPath));
@@ -57,7 +71,8 @@ export const main = async () => {
     return {
         txtPath: outPath,
         csvPath: csvPath,
-        stagingPath: stagingS3
+        stagingPath: stagingS3,
+        orgPath: OrganizationTXT,
     }
 };
 

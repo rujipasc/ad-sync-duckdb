@@ -5,3 +5,4 @@ datasource/*.csv
 script/*
 auth/*.json
 downloads/*
+datasource/*.txt
