@@ -76,7 +76,7 @@ LEFT JOIN email_mapping m
     ON e."Office Email" = m."Office Email SCB"
 LEFT JOIN emp_category ec
     ON ec.Prefix_Map = LEFT(e."Employee ID", 2)
-WHERE (e."Termination Date" IS NULL OR e."Termination Date" >= current_date())
+WHERE ((e."Termination Date" IS NULL OR e."Termination Date" >= current_date()) OR (e."Employee ID" = 'CX00865' AND current_date() <= '2026-03-10'))
     AND e."Employee ID" != 'DUMMY'
     AND e."Company Code" != 'AX001'
     AND (e."Level Code (Description)" != 'BOD' 

@@ -3,6 +3,7 @@ import { runTask } from "../humatrix-export/exportHumatrix.js";
 import { main } from "./index.js";
 import { uploadToS3, listObjectS3 } from "./lib/s3-helper.js";
 import path from "path";
+import { ensureSsoAuthenticated } from "./lib/aws-refreshToken.js";
 
 async function run() {
     try {
@@ -13,6 +14,7 @@ async function run() {
             result.orgPath,
         ].filter(Boolean);
         console.log(`\n☁️ [Step 3] Syncing ${uploadQueue.length} files to AWS S3...`);
+        await ensureSsoAuthenticated();
         for (const localFile of uploadQueue) {
             const fileName = path.basename(localFile);
             const s3Key = `lgc/scb/inbound/AD/${fileName}`; // กำหนด path บน S3
