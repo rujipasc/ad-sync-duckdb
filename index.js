@@ -2,6 +2,7 @@ import { bringLatestEmpProfile } from "./lib/move-file.js";
 import { runQueryFromFile } from "./lib/query.js";
 import { exportTXT, exportCSV } from "./lib/exporter.js"
 import { buildOutputPath, buildCsvOutputPath, buildS3Upload } from "./lib/archive.js";
+import "dotenv/config"
 
 const color = {
     cyan: t => `\x1b[36m${t}\x1b[0m`,
@@ -10,7 +11,7 @@ const color = {
 
 export const main = async () => {
     const empCsvPath = await bringLatestEmpProfile({
-        sourceDir: "./downloads/",
+        sourceDir: "../cx-export-humatrix/downloads/",
         targetDir: "./datasource/",
         targetName: "emp_profile.csv",
         prefix: "EmpProfiles_",
@@ -21,7 +22,7 @@ export const main = async () => {
     console.log("Using input file:", empCsvPath);
 
     const emailMapping = await bringLatestEmpProfile({
-        sourceDir: "../../../Card X Company Limited/HRIS&SS - Interface SCB AD/",
+        sourceDir: "./datasource/",
         targetDir: "./datasource/",
         targetName: "email_mapping.csv",
         prefix: "Replace_email_list_SCB_AD",
@@ -32,7 +33,7 @@ export const main = async () => {
     console.log("Using email mapping file:", emailMapping);
 
     const OrganizationTXT = await bringLatestEmpProfile({
-        sourceDir: "../../../Card X Company Limited/HRIS&SS - Interface SCB AD/",
+        sourceDir: "./datasource/",
         targetDir: "./output/S3/",
         targetName: "CARDX_ORGANIZATION.txt",
         prefix: "CARDX_ORGANIZATION",
@@ -43,7 +44,7 @@ export const main = async () => {
     console.log("Copy Text File:", OrganizationTXT);
 
     const non_humatrix = await bringLatestEmpProfile({
-        sourceDir: "../../../Card X Company Limited/HRIS&SS - Interface SCB AD/",
+        sourceDir: "./datasource/",
         targetDir: "./datasource/",
         targetName: "non_humatrix_profile.csv",
         prefix: "Gen_EmpID&Email",

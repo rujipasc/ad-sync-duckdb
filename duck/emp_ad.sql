@@ -8,7 +8,13 @@ email_mapping AS (
     SELECT * FROM read_csv_auto('datasource/email_mapping.csv')    
 ),
 emp_category AS (
-    SELECT * FROM read_csv_auto('datasource/emp_category.csv')
+    SELECT * FROM (
+        VALUES
+            ('CT', 4),
+            ('CA', 3),
+            ('CC', 2),
+            ('CX', 1)
+    ) AS t(Prefix_Map, Mapping_Value)
 ),
 non_humatrix_profile AS (
     SELECT * FROM read_csv_auto('datasource/non_humatrix_profile.csv')

@@ -6,3 +6,4 @@ script/*
 auth/*.json
 downloads/*
 datasource/*.txt
+datasource/*.xlsx
