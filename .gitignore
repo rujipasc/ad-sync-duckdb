@@ -7,3 +7,4 @@ auth/*.json
 downloads/*
 datasource/*.txt
 datasource/*.xlsx
+.DS_Store
