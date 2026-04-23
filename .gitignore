@@ -3,8 +3,8 @@ output/*
 datasource/*.csv
 .env
 script/*
-auth/*.json
-downloads/*
+automation/playwright/auth/*.json
 datasource/*.txt
 datasource/*.xlsx
 .DS_Store
+automation/playwright/downloads/*
